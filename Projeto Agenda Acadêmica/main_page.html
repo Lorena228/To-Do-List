@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meu Done</title>
+    <link rel="stylesheet" href="main_page.css" />
+  </head>
+  <body>
+    <div class="meu_Done">
+      <h1>O que temos pra hoje?</h1>
+      <h3 id="titulo-lista">Sua Lista</h3>
+
+      <div id="lista-tarefas"></div>
+
+      <div class="sem_tarefas" id="sem_tarefas">
+        <img
+          src="imagens/Relaxing at home-bro.png"
+          alt="Home illustrations by Storyset"
+        />
+        <h4>Sem tarefas pra hoje</h4>
+      </div>
+
+      <button id="adc_tarefa">+ Adicionar nova tarefa</button>
+
+      <dialog id="modal_tarefas">
+        <button id="fechar_modal">
+          <img src="imagens/fechar.png" alt="fechar janela" />
+        </button>
+
+        <h2>Nova Tarefa</h2>
+        <label for="nome_tarefa"></label>
+        <input
+          type="text"
+          id="nome_tarefa"
+          placeholder="Digite o nome da sua tarefa"
+        />
+
+        <label for="frequencia">Frequência</label>
+        <select name="frequencia" id="frequencia" aria-selected="uma vez">
+          <option value="uma vez">Uma vez</option>
+          <option value="todos os dias">Todos os dias</option>
+          <option value="semanalmente">Semanalmente</option>
+          <option value="anualmente">Anualmente</option>
+        </select>
+
+        <label for="note">Anotações</label>
+        <textarea name="note" id="note"></textarea>
+
+        <button id="salvar_tarefa" onclick="salvarTarefa()">Salvar</button>
+        <button id="botao_excluir">🗑️ Excluir</button>
+      </dialog>
+    </div>
+    <script src="salvar_exibir.js "></script>
+    <script src="autenticação.js"></script>
+  </body>
+  <footer>
+    <h5>Feito por Lorena Santos</h5>
+  </footer>
+</html>

@@ -1,0 +1,118 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+.area_login {
+  display: flex;
+  height: 100vh;
+}
+
+.logo{
+  width: 50%;
+  background: #fcfaf8;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.logo img {
+  max-width: 80%;
+}
+
+.login {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 29px;
+  color: #06a74f;
+  margin-bottom: 64px;
+}
+
+h3{
+  font-size: 20px;
+  color: #06a74f;
+  margin-bottom: 16px;
+}
+
+.google {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+  justify-content: center;
+  margin-bottom: 64px;
+  width: 8%;
+  align-self: center;
+}
+
+.google img {
+  width: 40px;
+  height: 40px;
+  filter: drop-shadow(1px 1px 0 #046e34);
+}
+
+.divisao {
+  color: #06a74f;
+  display: flex;
+  margin-bottom: 32px;
+}
+
+.divisao hr {
+  width: 50%;
+  border: 0.5px solid #06a74f;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.divisao p {
+  margin: 10px;
+}
+input {
+  width: 80%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #06a74f;
+  border-radius: 5px;
+  font-size: 16px;
+  align-self: center;
+}
+
+#botao_criar {
+  width: 40%;
+  padding: 10px;
+  background: #06a74f;
+  color:  white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 8px;
+  align-self: center;
+}
+
+#botao_criar:hover {
+  background:#046e34;
+}
+
+footer {
+  background-color: #ccc;
+  text-align: center;
+}
+
+h5{
+  color: #046e34;
+}
