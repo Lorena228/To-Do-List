@@ -8,12 +8,15 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 })
 
-//Modal sempre limpo ao criar nova tarefa
-function abrirModalLimpo(params) {
+function limparCamposModal() {
   document.getElementById('nome_tarefa').value = ''
   document.getElementById('frequencia').value = 'uma vez'
   document.getElementById('note').value = ''
   localStorage.removeItem('indiceEdicao')
+}
+//Modal sempre limpo ao criar nova tarefa
+function abrirModalLimpo(params) {
+  limparCamposModal()
   document.getElementById('modal_tarefas').showModal()
 }
 document.getElementById('adc_tarefa').addEventListener('click', abrirModalLimpo)
@@ -36,7 +39,10 @@ import {
   salvarTarefa,
   obterTarefas,
   limparEdicao,
-  excluirTarefaIndice
+  excluirTarefaIndice,
+  definirIndiceEdicao,
+  obterIndiceEdicao,
+  editarTarefa
 } from './crud.js'
 //FORMULARIO DO MODAL
 //SALVA
@@ -51,15 +57,17 @@ document.getElementById('salvar_tarefa').addEventListener('click', () => {
     anotacoes: notes
   }
   //editando ou adc
-  const indiceEdicao = localStorage.getItem('indiceEdicao')
-  salvarTarefa(novaTarefa, indiceEdicao ? Number(indiceEdicao) : null)
+  const indiceEdicao = obterIndiceEdicao()
+
+  if (indiceEdicao !== null) {
+    editarTarefa(novaTarefa)
+  } else {
+    salvarTarefa(novaTarefa, null)
+  }
 
   exibirTarefa()
 
-  //limpar campos do modal
-  document.getElementById('nome_tarefa').value = ''
-  document.getElementById('frequencia').value = 'uma vez'
-  document.getElementById('note').value = ''
+  limparCamposModal()
 
   //fechar modal ao clicar "salvar"
   document.querySelector('dialog').close()
@@ -113,7 +121,7 @@ function abrirModalEditar(index) {
   document.getElementById('frequencia').value = tarefa.frequencia
   document.getElementById('note').value = tarefa.anotacoes
 
-  localStorage.setItem('indiceEdicao', index)
+  definirIndiceEdicao(index)
 
   document.querySelector('dialog').showModal()
 }

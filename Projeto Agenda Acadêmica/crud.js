@@ -24,10 +24,29 @@ export function excluirTarefaIndice() {
   }
 }
 
+let indiceEdicao = null
+
+export function definirIndiceEdicao(indice) {
+  indiceEdicao = indice
+}
+
+export function obterIndiceEdicao() {
+  return indiceEdicao
+}
+
+export function editarTarefa(tarefaAtualizada) {
+  if (indiceEdicao !== null) {
+    const tarefas = obterTarefas()
+    tarefas[indiceEdicao] = tarefaAtualizada
+    localStorage.setItem('tarefas', JSON.stringify(tarefas))
+    limparEdicao()
+  }
+}
+
 export function obterTarefas() {
   return JSON.parse(localStorage.getItem('tarefas')) || []
 }
 
 export function limparEdicao() {
-  localStorage.removeItem('indiceEdicao')
+  indiceEdicao = null
 }
