@@ -32,8 +32,15 @@ botao_fechar.onclick = function () {
   modal.close()
 }
 
+import {
+  salvarTarefa,
+  obterTarefas,
+  limparEdicao,
+  excluirTarefaIndice
+} from './crud.js'
 //FORMULARIO DO MODAL
-function salvarTarefa() {
+//SALVA
+document.getElementById('salvar_tarefa').addEventListener('click', () => {
   let nome_tarefa = document.getElementById('nome_tarefa').value
   let frequencia = document.getElementById('frequencia').value
   let notes = document.getElementById('note').value
@@ -43,21 +50,9 @@ function salvarTarefa() {
     frequencia: frequencia,
     anotacoes: notes
   }
-
-  //parse() transformar o texto salvo de volta em array
-  let tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
-
-  const indice = localStorage.getItem('indiceEdicao')
-
-  if (indice !== null) {
-    tarefas[indice] = novaTarefa
-    localStorage.removeItem('indiceEdicao')
-  } else {
-    tarefas.push(novaTarefa)
-  }
-
-  //stringify() transforma o array em texto e salvar
-  localStorage.setItem('tarefas', JSON.stringify(tarefas))
+  //editando ou adc
+  const indiceEdicao = localStorage.getItem('indiceEdicao')
+  salvarTarefa(novaTarefa, indiceEdicao ? Number(indiceEdicao) : null)
 
   exibirTarefa()
 
@@ -68,7 +63,7 @@ function salvarTarefa() {
 
   //fechar modal ao clicar "salvar"
   document.querySelector('dialog').close()
-}
+})
 
 function exibirTarefa() {
   const lista = document.getElementById('lista-tarefas')
@@ -111,7 +106,7 @@ function exibirTarefa() {
 }
 
 function abrirModalEditar(index) {
-  const tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
+  const tarefas = obterTarefas()
   const tarefa = tarefas[index]
 
   document.getElementById('nome_tarefa').value = tarefa.nome
@@ -123,20 +118,13 @@ function abrirModalEditar(index) {
   document.querySelector('dialog').showModal()
 }
 
-function excluirTarefa() {
-  const indice = localStorage.getItem('indiceEdicao')
-
-  if (indice !== null) {
-    let tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
-    tarefas.splice(indice, 1)
-    localStorage.setItem('tarefas', JSON.stringify(tarefas))
-    localStorage.removeItem('indiceEdicao')
-    exibirTarefa()
-    modal.close()
-  }
+function ajudanteExcluirTarefa() {
+  excluirTarefaIndice()
+  exibirTarefa()
+  modal.close()
 }
 document
   .getElementById('botao_excluir')
-  .addEventListener('click', excluirTarefa)
+  .addEventListener('click', ajudanteExcluirTarefa)
 
 window.addEventListener('load', exibirTarefa)
