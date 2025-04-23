@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const parametro = new URLSearchParams(window.location.search)
   const nomeLista = parametro.get('lista')
 
+  console.log(`Nome da lista recebido: ${nomeLista}`)
+
   if (nomeLista) {
     document.getElementById('titulo-lista').textContent = `${nomeLista}`
   }
@@ -37,7 +39,7 @@ botao_fechar.onclick = function () {
 
 import {
   salvarTarefa,
-  obterTarefas,
+  listarTarefas,
   limparEdicao,
   excluirTarefaIndice,
   definirIndiceEdicao,
@@ -63,6 +65,7 @@ document.getElementById('salvar_tarefa').addEventListener('click', () => {
     editarTarefa(novaTarefa)
   } else {
     salvarTarefa(novaTarefa, null)
+    window.location.reload()
   }
 
   exibirTarefa()
@@ -73,12 +76,13 @@ document.getElementById('salvar_tarefa').addEventListener('click', () => {
   document.querySelector('dialog').close()
 })
 
-function exibirTarefa() {
+async function exibirTarefa() {
   const lista = document.getElementById('lista-tarefas')
   const semTarefas = document.getElementById('sem_tarefas')
   lista.innerHTML = ''
 
-  const tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
+  const tarefas = await listarTarefas()
+  console.log(tarefas)
   //const tarefas = crud.listar();
 
   if (tarefas.length === 0) {
@@ -113,8 +117,8 @@ function exibirTarefa() {
   })
 }
 
-function abrirModalEditar(index) {
-  const tarefas = obterTarefas()
+async function abrirModalEditar(index) {
+  const tarefas = await listarTarefas()
   const tarefa = tarefas[index]
 
   document.getElementById('nome_tarefa').value = tarefa.nome
