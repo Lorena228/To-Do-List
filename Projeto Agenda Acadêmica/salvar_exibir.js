@@ -62,7 +62,8 @@ document.getElementById('salvar_tarefa').addEventListener('click', () => {
   const indiceEdicao = obterIndiceEdicao()
 
   if (indiceEdicao !== null) {
-    editarTarefa(novaTarefa)
+    editarTarefa(indiceEdicao, novaTarefa)
+    window.location.reload()
   } else {
     salvarTarefa(novaTarefa, null)
     window.location.reload()
@@ -133,6 +134,7 @@ async function abrirModalEditar(index) {
 function ajudanteExcluirTarefa() {
   excluirTarefaIndice()
   exibirTarefa()
+  window.location.reload()
   modal.close()
 }
 document

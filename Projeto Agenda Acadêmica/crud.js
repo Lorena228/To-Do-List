@@ -61,19 +61,29 @@ export function limparEdicao() {
 }
 
 //UPDATE
-export function editarTarefa(tarefaAtualizada) {
+export function editarTarefa(indice, tarefaAtualizada) {
   if (indiceEdicao !== null) {
-    // return fetch(`${URL}/tarefas/${indice}`, {
-    //   method: 'PUT',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(novaTarefa)
-    // })
-    const tarefas = JSON.parse(localStorage.getItem('tarefas')) || []
-    tarefas[indiceEdicao] = tarefaAtualizada
-    localStorage.setItem('tarefas', JSON.stringify(tarefas))
-    limparEdicao()
+    return fetch(`${URL}/tarefas/${indice}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(tarefaAtualizada)
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Erro ao atualizar a tarefa no servidor')
+        }
+        return response.json()
+      })
+      .then(data => {
+        console.log(`Tarefa de indice ${indice} atualizada com sucesso:`, data)
+      })
+      .catch(error => {
+        console.log('Erro ao atualizar tarefa:', error)
+      })
+  } else {
+    console.warm('Nenhum indice foi fornecido para edição')
   }
 }
 
