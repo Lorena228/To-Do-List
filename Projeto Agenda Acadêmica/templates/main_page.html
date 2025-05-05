@@ -4,7 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Meu Done</title>
-    <link rel="stylesheet" href="main_page.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main_page.css') }}"
+    />
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='imagens/favicon.png') }}"
+      type="image/x-icon"
+    />
   </head>
   <body>
     <div class="meu_Done">
@@ -15,7 +23,7 @@
 
       <div class="sem_tarefas" id="sem_tarefas">
         <img
-          src="imagens/Relaxing at home-bro.png"
+          src="{{ url_for('static', filename='imagens/Relaxing at home-bro.png') }}"
           alt="Home illustrations by Storyset"
         />
         <h4>Sem tarefas pra hoje</h4>
@@ -25,7 +33,10 @@
 
       <dialog id="modal_tarefas">
         <button id="fechar_modal">
-          <img src="imagens/fechar.png" alt="fechar janela" />
+          <img
+            src="{{ url_for('static', filename='imagens/fechar.png') }}"
+            alt="fechar janela"
+          />
         </button>
 
         <h2>Nova Tarefa</h2>
@@ -51,8 +62,11 @@
         <button id="botao_excluir">🗑️ Excluir</button>
       </dialog>
     </div>
-    <script type="module" src="salvar_exibir.js "></script>
-    <script src="autenticação.js"></script>
+    <script
+      type="module"
+      src="{{ url_for('static', filename='js/salvar_exibir.js') }} "
+    ></script>
+    <script src="{{ url_for('static', filename='js/autenticação.js') }}"></script>
   </body>
   <footer>
     <h5>Feito por Lorena Santos</h5>

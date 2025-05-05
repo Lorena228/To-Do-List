@@ -4,7 +4,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}) #Permite requisições de qualquer origem
 
-tarefas = []
+tarefas = [{"nome": "Tarefa 1", "anotacoes": "Descrição da Tarefa 1"}]
 
 @app.route('/')
 def home():

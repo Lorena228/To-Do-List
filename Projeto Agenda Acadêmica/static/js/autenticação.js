@@ -11,9 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const nomeLista = inputNomeLista.value.trim()
 
     if (nomeLista) {
-      window.location.href = `main_page.html?lista=${encodeURIComponent(
-        nomeLista
-      )}`
+      window.location.href = `/mainpage?lista=${encodeURIComponent(nomeLista)}`
     } else {
       alert('Por favor, insira um nome para a lista!')
     }
