@@ -62,9 +62,14 @@ document.getElementById('salvar_tarefa').addEventListener('click', () => {
   const indiceEdicao = obterIndiceEdicao()
 
   if (indiceEdicao !== null) {
+    console.log(obterIndiceEdicao())
+    console.log(novaTarefa)
+    debugger
     editarTarefa(indiceEdicao, novaTarefa)
     window.location.reload()
   } else {
+    console.log(novaTarefa)
+    debugger
     salvarTarefa(novaTarefa, null)
     window.location.reload()
   }

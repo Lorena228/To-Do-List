@@ -1,6 +1,6 @@
 const URL = 'http://127.0.0.1:5000'
 //UPDATE
-export function salvarTarefa(novaTarefa, indice = null) {
+export async function salvarTarefa(novaTarefa, indice = null) {
   return fetch(`${URL}/tarefas`, {
     method: 'POST',
     headers: {
@@ -10,8 +10,12 @@ export function salvarTarefa(novaTarefa, indice = null) {
   })
     .then(response => {
       if (!response.ok) {
+        console.log(response.json())
+        debugger
         throw new Error('Erro ao criar a tarefa no servidor')
       }
+      console.log(response.json())
+      debugger
       return response.json()
     })
 
@@ -21,28 +25,25 @@ export function salvarTarefa(novaTarefa, indice = null) {
 }
 
 //DELETE
-export function excluirTarefaIndice() {
+export async function excluirTarefaIndice() {
   const indice = obterIndiceEdicao()
+  const idTarefa = await EncontrarId(indice)
   //const indice = localStorage.getItem('indiceEdicao')
 
-  if (indice !== null) {
-    return fetch(`${URL}/tarefas/${indice}`, {
-      method: 'DELETE'
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro ao excluir a tarefa')
-        }
-        localStorage.removeItem('indiceEdicao')
-        console.log(
-          `Tarefa de indice ${indice} excluída com sucesso do servidor`
-        )
+  if (idTarefa) {
+    try {
+      const response = await fetch(`${URL}/tarefas/${idTarefa}`, {
+        method: 'DELETE'
       })
-      .catch(error => {
-        console.error('Erro ao excluir a tarefa do servidor:', error)
-      })
+      if (!response.ok) {
+        throw new Error('Erro ao excluir a tarefa')
+      }
+      console.log(`Tarefa com ID ${idTarefa} excluída com sucesso do servidor.`)
+    } catch (error) {
+      console.error('Erro ao excluir a tarefa do servidor:', error)
+    }
   } else {
-    console.warn('Nenhum índice de tarefa foi encontrado para exclusão')
+    console.warn('Não foi possível encontrar a tarefa para exclusão.')
   }
 }
 
@@ -61,29 +62,30 @@ export function limparEdicao() {
 }
 
 //UPDATE
-export function editarTarefa(indice, tarefaAtualizada) {
-  if (indiceEdicao !== null) {
-    return fetch(`${URL}/tarefas/${indice}`, {
+export async function editarTarefa(indice, tarefaAtualizada) {
+  try {
+    const idTarefa = await EncontrarId(indice)
+    if (!idTarefa) {
+      console.warn('ID da tarefa não encontrado para o índice fornecido.')
+      return
+    }
+
+    const response = await fetch(`${URL}/tarefas/${idTarefa}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(tarefaAtualizada)
     })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Erro ao atualizar a tarefa no servidor')
-        }
-        return response.json()
-      })
-      .then(data => {
-        console.log(`Tarefa de indice ${indice} atualizada com sucesso:`, data)
-      })
-      .catch(error => {
-        console.log('Erro ao atualizar tarefa:', error)
-      })
-  } else {
-    console.warm('Nenhum indice foi fornecido para edição')
+
+    if (!response.ok) {
+      throw new Error('Erro ao atualizar a tarefa no servidor.')
+    }
+
+    const resultado = await response.json()
+    console.log(`Tarefa com ID ${idTarefa} atualizada com sucesso:`, resultado)
+  } catch (error) {
+    console.error('Erro ao atualizar tarefa:', error)
   }
 }
 
@@ -105,4 +107,22 @@ export function listarTarefas() {
       return [] //retorna uma lista vazia
     })
   //return JSON.parse(localStorage.getItem('tarefas')) || []
+}
+
+export async function EncontrarId(indice) {
+  try {
+    const response = await fetch(`${URL}/tarefas`, { method: 'GET' })
+    if (!response.ok) {
+      throw new Error('Erro ao buscar a lista de tarefas')
+    }
+    const tarefas = await response.json() // converte em json
+    if (indice >= 0 && indice < tarefas.length) {
+      return tarefas[indice].id // retorna o id
+    } else {
+      throw new Error('Índice fora do intervalo da lista de tarefas')
+    }
+  } catch (error) {
+    console.error('Erro ao obter ID por índice:', error)
+    return null
+  }
 }
